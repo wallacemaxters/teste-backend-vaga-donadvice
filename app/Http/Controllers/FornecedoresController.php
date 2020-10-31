@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produto;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class FornecedoresController extends Controller
         $dados = $request->validate([
             'nome_fantasia' => 'required|string',
             'razao_social'  => 'required|string',
-            'cnpj'          => 'required|string|cnpj|unique:App\Models\Fornecedor,cnpj',
+            'cnpj'          => 'required|string|cnpj|unique:fornecedores,cnpj',
         ]);
 
         return Fornecedor::create($dados);
@@ -57,11 +58,11 @@ class FornecedoresController extends Controller
         $dados = $request->validate([
             'nome_fantasia' => 'required|string',
             'razao_social'  => 'required|string',
-            'cnpj'          => 'required|string|cnpj|unique:App\Models\Fornecedor,cnpj,' . $fornecedor->id,
+            'cnpj'          => 'required|string|cnpj|unique:fornecedores,cnpj,' . $fornecedor->id,
         ]);
 
         $fornecedor->fill($dados)->save();
-        
+
         return $fornecedor;
     }
 
@@ -81,5 +82,28 @@ class FornecedoresController extends Controller
     public function produtos(Fornecedor $fornecedor)
     {
         return $fornecedor->produtos()->paginate();
+    }
+
+    public function salvarProduto(Fornecedor $fornecedor, Request $request)
+    {
+        $request->validate([
+            'produto_id' => 'required|exists:produtos,id',
+            'preco'      => 'required|numeric'
+        ]);
+
+
+        $fornecedor->produtos()->sync([
+            $request->get('produto_id') => $request->only('preco')
+        ], false);
+
+
+        return $fornecedor->produtos()->findOrFail($request->produto_id)->pivot;
+    }
+
+    public function excluirProduto(Fornecedor $fornecedor, Produto $produto)
+    {
+        $resultado = $fornecedor->produtos()->detach($produto);
+
+        return response(['status' => (boolean) $resultado], $resultado ? 200 : 404);
     }
 }

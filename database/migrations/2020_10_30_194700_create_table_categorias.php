@@ -10,13 +10,14 @@ class CreateTableCategorias extends Migration
      * Run the migrations.
      *
      * @return void
-     */ 
+     */
     public function up()
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

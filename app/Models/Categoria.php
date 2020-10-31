@@ -9,11 +9,10 @@ class Categoria extends Model
 {
 
 	use SoftDeletes;
-	
+
     protected $table = 'categorias';
 
     protected $fillable = ['nome'];
-
 
  	public function produtos()
  	{

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 
 class ProdutosController extends Controller
@@ -44,7 +45,7 @@ class ProdutosController extends Controller
      */
     public function show(Produto $produto)
     {
-        return $produto;
+        return $produto->load('categoria:id,nome');
     }
 
     /**
@@ -56,9 +57,9 @@ class ProdutosController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-        
+
         $dados = $request->validate([
-            'nome'         => 'required|string|max:200|unique:produtos,nome,id,'. $produto->id,
+            'nome'         => 'required|string|max:200|unique:produtos,nome,'. $produto->id,
             'descricao'    => 'nullable|string',
             'categoria_id' => 'required|exists:categorias,id',
         ]);
@@ -87,16 +88,38 @@ class ProdutosController extends Controller
     }
 
 
-    public function adicionarFornecedor(Produto $produto, Request $request)
+    /**
+     * Cria ou atualiza um fornecedor
+     *
+     * @param Produto $produto
+     * @param Request $request
+     */
+    public function salvarFornecedor(Produto $produto, Request $request)
     {
-        $dados = $request->validate([
+        $request->validate([
             'fornecedor_id' => 'required|exists:fornecedores,id',
             'preco'         => 'required|numeric',
         ]);
 
-        $produto->fornecedores()->sync([$dados['fornecedor_id'] => $dados], false);
+        $produto->fornecedores()->sync([
+            $request->fornecedor_id => $request->only('preco')
+        ], false);
 
-        return $dados;
+        return $produto->fornecedores()->findOrFail($request->fornecedor_id)->pivot;
+    }
+
+    /**
+     *
+     * Excluir um fornecedor do produto
+     *
+     * @param Produto $produto
+     * @param Request $request
+     */
+    public function excluirFornecedor(Produto $produto, Fornecedor $fornecedor)
+    {
+        $resultado = $produto->fornecedores()->detach($fornecedor);
+
+        return response(['status' => (boolean) $resultado], $resultado ? 200 : 404);
     }
 }
 
