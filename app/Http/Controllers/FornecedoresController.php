@@ -43,7 +43,7 @@ class FornecedoresController extends Controller
      */
     public function show(Fornecedor $fornecedor)
     {
-        return $fornecedor;
+        return $fornecedor->load('endereco', 'telefones');
     }
 
     /**

@@ -27,8 +27,6 @@ class CreateTableFornecedorEnderecos extends Migration
 
             $table->integer('fornecedor_id')->unsigned();
 
-            $table->timestamps();
-
             $table->softDeletes();
 
             $table->foreign('fornecedor_id')->on('fornecedores')->references('id');

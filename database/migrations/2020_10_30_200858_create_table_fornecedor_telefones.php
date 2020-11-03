@@ -21,6 +21,8 @@ class CreateTableFornecedorTelefones extends Migration
 
             $table->string('ddd', 2);
 
+            $table->string('observacao', 200)->nullable();
+
             $table->softDeletes();
 
             $table->integer('fornecedor_id')->unsigned();

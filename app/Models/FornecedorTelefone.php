@@ -11,7 +11,7 @@ class FornecedorTelefone extends Model
     
     protected $table = 'fornecedor_telefones';
 
-    protected $fillable = ['ddd', 'numero'];
+    protected $fillable = ['ddd', 'numero', 'observacao', 'fornecedor_id'];
 
     public $timestamps = false;
 

@@ -33,6 +33,28 @@ class MockSeeder extends Seeder
             'preco' => 8.99
         ]);
 
+        $fornecedor->telefones()->create([
+            'ddd'      => '31',
+            'numero' => '999999964',
+            'observacao' => 'whatsapp/celular'
+        ]);
+
+        $fornecedor->telefones()->create([
+            'ddd'      => '31',
+            'numero' => '33553333',
+            'observacao' => 'comercial'
+        ]);
+
+        $fornecedor->endereco()->create([
+            'cep' => '324000000',
+            'logradouro' => 'Rua Qualquer',
+            'bairro'     => 'Novo Horizonte',
+            'numero'     => '111',
+            'cidade'     => 'Ibirité',
+            'uf'         => 'MG',
+            'complemento' => 'Bloco 2 Casa 3'
+        ]);
+
 
     }
 }

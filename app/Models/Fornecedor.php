@@ -19,4 +19,14 @@ class Fornecedor extends Model
     {
     	return $this->belongsToMany(Produto::class, 'fornecedores_produtos')->withPivot(['preco'])->withTimestamps();
     }
+
+    public function endereco()
+    {
+        return $this->hasOne(FornecedorEndereco::class);
+    }
+
+    public function telefones()
+    {
+        return $this->hasMany(FornecedorTelefone::class);
+    }
 }

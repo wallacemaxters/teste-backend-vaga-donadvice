@@ -37,3 +37,12 @@ Route::apiResource('fornecedores', 'FornecedoresController')->parameters([
 Route::get('fornecedores/{fornecedor}/produtos', 'FornecedoresController@produtos');
 Route::put('fornecedores/{fornecedor}/salvar-produto', 'FornecedoresController@salvarProduto');
 Route::delete('fornecedores/{fornecedor}/excluir-produto/{produto}', 'FornecedoresController@excluirProduto');
+
+
+Route::apiResource('fornecedor-telefones', 'FornecedorTelefonesController')->except('index')->parameters([
+    'fornecedor-telefones' => 'fornecedor_telefone',
+]);
+
+Route::apiResource('fornecedor-enderecos', 'FornecedorEnderecosController')->except('index')->parameters([
+    'fornecedor-enderecos' => 'fornecedor_endereco',
+]);

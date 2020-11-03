@@ -11,7 +11,7 @@ class FornecedorEndereco extends Model
     
     protected $table = 'fornecedor_enderecos';
 
-    protected $fillable = ['cep', 'logradouro', 'cidade', 'uf', 'bairro', 'complemento', 'numero'];
+    protected $fillable = ['cep', 'logradouro', 'cidade', 'uf', 'bairro', 'complemento', 'numero', 'fornecedor_id'];
 
     public $timestamps = false;
 
