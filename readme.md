@@ -15,4 +15,4 @@
 Acesse a documentação [aqui](https://documenter.getpostman.com/view/245362/TVYKbwpf)
 
 
-Feito em 02 horas e 11 minutos
+Feito em 02 horas e 48 minutos
